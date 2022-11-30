@@ -1,9 +1,9 @@
 (defpackage aoc
   (:use cl)
   (:export fetch-input
-           open-input-stream
-           input-lines
-           input-ints))
+           with-input-stream
+           input-as-lines
+           input-as-ints))
 (in-package aoc)
 
 (defun note (&rest args)
@@ -49,13 +49,21 @@
       (fetch-input year day path))
     (open path :direction :input)))
 
-(defun input-lines (year day)
+(defmacro with-input-stream ((var year day) &body body)
+  "Fetch input for AOC problem for YEAR and DAY into input stream bound
+  to VAR, then evaluate BODY and close the stream"
+  `(let ((,var (open-input-stream ,year ,day)))
+     (unwind-protect
+          (progn ,@body)
+       (close ,var))))
+
+(defun input-as-lines (year day)
   "Get AOC input for YEAR and DAY as list of strings."
-  (let ((in (open-input-stream year day)))
+  (with-input-stream (in year day)
     (loop for line = (read-line in nil)
           until (null line)
           collect line)))
 
-(defun input-ints (year day &key (as 'list))
+(defun input-as-ints (year day &key (as 'list))
   "Get AOC input for YEAR and DAY as sequence (default 'list) of ints."
-  (map as 'parse-integer (input-lines year day)))
+  (map as 'parse-integer (input-as-lines year day)))
