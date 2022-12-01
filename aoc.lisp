@@ -1,8 +1,14 @@
+;(ql:quickload :drakma)
+;(ql:quickload :april)
 (defpackage aoc
-  (:use cl)
+  (:use cl
+        drakma
+        april)
   (:export fetch-input
            with-input-stream
+           read-lines
            input-as-lines
+           read-lines-as-ints
            input-as-ints))
 (in-package aoc)
 
@@ -20,8 +26,8 @@
 (defparameter *cookie-jar* nil)
 (defun make-cookie-jar ()
   (make-instance
-   'drakma:cookie-jar
-   :cookies (list (make-instance 'drakma:cookie
+   'cookie-jar
+    :cookies (list (make-instance 'cookie
                                   :name "session"
                                   :domain ".adventofcode.com"
                                   :value (load-token)))))
@@ -31,7 +37,7 @@
   (let ((url (format nil "https://adventofcode.com/~d/day/~d/input" year day)))
     (note "fetching input from ~s" url)
     (multiple-value-bind (data response-code)
-        (drakma:http-request url
+        (http-request url
                              :cookie-jar (or *cookie-jar*
                                              (setq *cookie-jar* (make-cookie-jar))))
       (if (>= response-code 400)
@@ -57,13 +63,22 @@
           (progn ,@body)
        (close ,var))))
 
+(defun read-lines (stream)
+  "Read lines from STREAM until EOF"
+  (loop for line = (read-line stream nil)
+        until (null line)
+        collect line))
+
 (defun input-as-lines (year day)
   "Get AOC input for YEAR and DAY as list of strings."
   (with-input-stream (in year day)
-    (loop for line = (read-line in nil)
-          until (null line)
-          collect line)))
+    (read-lines in)))
+
+(defun read-lines-as-ints (stream &key (as 'list))
+  "Read lines from STREAM until EOF, returning sequence (default 'list) of ints"
+  (map as (lambda (x) (or (parse-integer x :junk-allowed t) 0)) (read-lines stream)))
 
 (defun input-as-ints (year day &key (as 'list))
   "Get AOC input for YEAR and DAY as sequence (default 'list) of ints."
-  (map as 'parse-integer (input-as-lines year day)))
+  (with-input-stream (in year day)
+    (read-lines-as-ints in :as as)))
