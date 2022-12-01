@@ -74,11 +74,11 @@
   (with-input-stream (in year day)
     (read-lines in)))
 
-(defun read-lines-as-ints (stream &key (as 'list))
+(defun read-lines-as-ints (stream &key (as 'list) (blanks-as nil))
   "Read lines from STREAM until EOF, returning sequence (default 'list) of ints"
-  (map as (lambda (x) (or (parse-integer x :junk-allowed t) 0)) (read-lines stream)))
+  (map as (lambda (x) (or (parse-integer x :junk-allowed t) blanks-as)) (read-lines stream)))
 
-(defun input-as-ints (year day &key (as 'list))
+(defun input-as-ints (year day &key (as 'list) (blanks-as nil))
   "Get AOC input for YEAR and DAY as sequence (default 'list) of ints."
   (with-input-stream (in year day)
-    (read-lines-as-ints in :as as)))
+    (read-lines-as-ints in :as as :blanks-as blanks-as)))
