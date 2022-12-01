@@ -65,3 +65,22 @@
 
 (defun part1-april ()
   (april-c "{⌈/ +/ ¨ (⍵≠0) ⊆ ⍵}" (input-as-ints 2022 1 :as 'vector :blanks-as 0)))
+
+(april-c "{((⍒ +/ ¨ (⍵≠0) ⊆ ⍵) ⍳⍳ 3)}" ex1)
+(april-c "{+/ ¨ (⍵≠0) ⊆ ⍵}" ex1)
+(april-c "{
+cals←+/ ¨ (⍵≠0) ⊆ ⍵
+cals[(⍒ cals) ⍳⍳ 3]}" ex1)
+(april-c "{
+cals←+/ ¨ (⍵≠0) ⊆ ⍵
+(⍒ cals) ⍳⍳ 3}" ex1)
+(april-c "{
+cals←+/ ¨ (⍵≠0) ⊆ ⍵
++/ cals[3 ↑ (⍒ cals)]}
+" ex1)
+
+(defun part2-april ()
+  (april-c "{
+cals←+/ ¨ (⍵≠0) ⊆ ⍵
++/ cals[3 ↑ (⍒ cals)
+}" (input-as-ints 2022 1 :as 'vector :blanks-as 0)))
