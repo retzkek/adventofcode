@@ -54,33 +54,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; april
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar ex1 (coerce
-             (mapcar (lambda (x) (or x 0))
-                     (with-input-from-string (ex *example1*)
-                       (read-lines-as-ints ex)))
-             'vector))
-(april-c "{(⍵≠0)}" ex1) ;; find zeroes
-(april-c "{(⍵≠0) ⊆ ⍵}" ex1) ;; parition by elf
-(april-c "{⌈/ +/ ¨ (⍵≠0) ⊆ ⍵}" ex1)
 
-(defun part1-april ()
-  (april-c "{⌈/ +/ ¨ (⍵≠0) ⊆ ⍵}" (input-as-ints 2022 1 :as 'vector :blanks-as 0)))
+;; (defvar ex1 (coerce
+;;              (mapcar (lambda (x) (or x 0))
+;;                      (with-input-from-string (ex *example1*)
+;;                        (read-lines-as-ints ex)))
+;;              'vector))
+;; (april-c "{(⍵≠0)}" ex1) ;; find zeroes
+;; (april-c "{(⍵≠0) ⊆ ⍵}" ex1) ;; parition by elf
+;; (april-c "{⌈/ +/ ¨ (⍵≠0) ⊆ ⍵}" ex1)
+;;
+;; (april-c "{((⍒ +/ ¨ (⍵≠0) ⊆ ⍵) ⍳⍳ 3)}" ex1)
+;; (april-c "{+/ ¨ (⍵≠0) ⊆ ⍵}" ex1)
+;; (april-c "{
+;; cals←+/ ¨ (⍵≠0) ⊆ ⍵
+;; cals[(⍒ cals) ⍳⍳ 3]}" ex1)
+;; (april-c "{
+;; cals←+/ ¨ (⍵≠0) ⊆ ⍵
+;; (⍒ cals) ⍳⍳ 3}" ex1)
 
-(april-c "{((⍒ +/ ¨ (⍵≠0) ⊆ ⍵) ⍳⍳ 3)}" ex1)
-(april-c "{+/ ¨ (⍵≠0) ⊆ ⍵}" ex1)
-(april-c "{
-cals←+/ ¨ (⍵≠0) ⊆ ⍵
-cals[(⍒ cals) ⍳⍳ 3]}" ex1)
-(april-c "{
-cals←+/ ¨ (⍵≠0) ⊆ ⍵
-(⍒ cals) ⍳⍳ 3}" ex1)
-(april-c "{
-cals←+/ ¨ (⍵≠0) ⊆ ⍵
-+/ cals[3 ↑ (⍒ cals)]}
-" ex1)
-
-(defun part2-april ()
-  (april-c "{
-cals←+/ ¨ (⍵≠0) ⊆ ⍵
-+/ cals[3 ↑ (⍒ cals)
-}" (input-as-ints 2022 1 :as 'vector :blanks-as 0)))
+(defun apl ()
+  (april-f (with (:state
+                  :in ((in (input-as-ints 2022 1 :as 'vector :blanks-as 0)))
+                  :out (ans1 ans2))) "
+cals ← +/ ¨ (in≠0) ⊆ in
+ans1 ← ⌈/ cals
+ans2 ← +/ cals[3 ↑ (⍒ cals)]
+"))
