@@ -13,7 +13,7 @@ CrZsJsPPZsGzwwsLwLmpwMDw")
 shared←{
   l←⊃(⍴ ⍵) ÷ 2         ⍝ length of compartment
   p←(l l / 1 2) ⊆ ⍵    ⍝ split compartments
-  ⊃ (⊃p)∩(2⊃p)         ⍝ find common items (why not ∩/p?)
+  ⊃⊃∩/p                ⍝ find common character
 }
 prio←'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 ans1 ← +/ prio ⍳ shared ¨ in
@@ -23,3 +23,18 @@ ans1 ← +/ prio ⍳ shared ¨ in
          (read-lines in)))
 
 (part1 (input-as-lines 2022 3))
+
+(defun part2 (lines)
+  (april-f (with (:state
+                  :in ((in (coerce lines 'vector)))
+                  :out (ans2))) "
+win←{↓(⊃(⍴⍵)÷⍺) ⍺ ⍴ ⍵}  ⍝ split into ⍺-length arrays
+com←{⊃⊃∩/⍵}             ⍝ find common character
+prio←'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+ans2 ← +/ prio ⍳ com ¨ 3 win in
+"))
+
+(part2 (with-input-from-string (in *example1*)
+         (read-lines in)))
+
+(part2 (input-as-lines 2022 3))
