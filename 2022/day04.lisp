@@ -32,3 +32,24 @@ ans1← +/ f ¨ in
 
 (with-input-stream (in 2022 4)
   (part1 in))
+
+(defun part2 (stream)
+  (april-f (with (:state
+                  :in ((in (coerce (parse stream) 'vector)))
+                  :out (ans2))) "
+expand←{(⍺-1) (1+⍵-⍺) / 0 1}
+overlaps←{
+m←⍺ ∧ ⍵          ⍝ find where arguments overlap
+0 < +/m          ⍝ do they overlap?
+}
+f←{
+overlaps/ ↓↑ expand/ 2 2 ⍴ ⍵
+}
+ans2← +/ f ¨ in
+"))
+
+(with-input-from-string (in *example1*)
+  (part2 in))
+
+(with-input-stream (in 2022 4)
+  (part2 in))
