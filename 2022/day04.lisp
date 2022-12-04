@@ -38,13 +38,8 @@ ans1← +/ f ¨ in
                   :in ((in (coerce (parse stream) 'vector)))
                   :out (ans2))) "
 expand←{(⍺-1) (1+⍵-⍺) / 0 1}
-overlaps←{
-m←⍺ ∧ ⍵          ⍝ find where arguments overlap
-0 < +/m          ⍝ do they overlap?
-}
-f←{
-overlaps/ ↓↑ expand/ 2 2 ⍴ ⍵
-}
+overlaps←{∨/⍺ ∧ ⍵}
+f←{overlaps/ ↓↑ expand/ 2 2 ⍴ ⍵}
 ans2← +/ f ¨ in
 "))
 
