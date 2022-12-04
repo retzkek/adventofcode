@@ -1,5 +1,6 @@
 ;(ql:quickload :drakma)
 ;(ql:quickload :april)
+;(ql:quickload :cl-ppcre)
 (defpackage aoc
   (:use cl
         drakma
