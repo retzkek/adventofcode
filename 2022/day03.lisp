@@ -11,7 +11,7 @@ CrZsJsPPZsGzwwsLwLmpwMDw")
                   :in ((in (coerce lines 'vector)))
                   :out (ans1))) "
 shared←{
-  l←⊃(⍴ ⍵) ÷ 2         ⍝ length of compartment
+  l←(≢⍵) ÷ 2           ⍝ length of compartment
   p←(l l / 1 2) ⊆ ⍵    ⍝ split compartments
   ⊃⊃∩/p                ⍝ find common character
 }
@@ -28,7 +28,7 @@ ans1 ← +/ prio ⍳ shared ¨ in
   (april-f (with (:state
                   :in ((in (coerce lines 'vector)))
                   :out (ans2))) "
-win←{↓(⊃(⍴⍵)÷⍺) ⍺ ⍴ ⍵}  ⍝ split into ⍺-length arrays
+win←{↓((≢⍵)÷⍺) ⍺ ⍴ ⍵}  ⍝ split into ⍺-length arrays
 com←{⊃⊃∩/⍵}             ⍝ find common character
 prio←'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 ans2 ← +/ prio ⍳ com ¨ 3 win in
