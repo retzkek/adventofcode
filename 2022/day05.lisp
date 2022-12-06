@@ -65,15 +65,26 @@ move 1 from 1 to 2")
 (with-input-stream (in 2022 5)
   (part1 in))
 
+(defmacro move-items (from to n &environment env)
+  "Destructively move the first N items from the FROM place to the TO place."
+  (multiple-value-bind (from-vars from-forms from-var set-from access-from)
+      (get-setf-expansion from env)
+    (multiple-value-bind (to-vars to-forms to-var set-to access-to)
+        (get-setf-expansion to env)
+      `(let* (,@(mapcar #'list from-vars from-forms)
+              ,@(mapcar #'list to-vars to-forms)
+              (,(car to-var) (nconc (subseq ,access-from 0 ,n)
+                                    ,access-to))
+              (,(car from-var) (nthcdr ,n ,access-from)))
+         ,set-to
+         ,set-from))))
+
 (defun part2 (stream)
   (multiple-value-bind (stacks moves) (parse stream)
     (loop for move in moves do
-      (setf (aref stacks (1- (move-to move)))
-            (nconc (subseq (aref stacks (1- (move-from move))) 0 (move-n move))
-                   (aref stacks (1- (move-to move)))))
-      (setf (aref stacks (1- (move-from move)))
-            (nthcdr (move-n move) (aref stacks (1- (move-from move)))))
-      (print stacks))
+      (move-items (aref stacks (1- (move-from move)))
+                  (aref stacks (1- (move-to move)))
+                  (move-n move)))
     (coerce
      (loop for x across stacks
            collect (car x))
