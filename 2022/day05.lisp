@@ -52,8 +52,8 @@ move 1 from 1 to 2")
   (multiple-value-bind (stacks moves) (parse stream)
     (loop for move in moves do
       (loop for i below (move-n move) do
-        (push (pop (aref stacks (- (move-from move) 1)))
-              (aref stacks (- (move-to move) 1)))))
+        (push (pop (aref stacks (1- (move-from move))))
+              (aref stacks (1- (move-to move))))))
     (coerce
      (loop for x across stacks
            collect (car x))
@@ -64,3 +64,23 @@ move 1 from 1 to 2")
 
 (with-input-stream (in 2022 5)
   (part1 in))
+
+(defun part2 (stream)
+  (multiple-value-bind (stacks moves) (parse stream)
+    (loop for move in moves do
+      (setf (aref stacks (1- (move-to move)))
+            (nconc (subseq (aref stacks (1- (move-from move))) 0 (move-n move))
+                   (aref stacks (1- (move-to move)))))
+      (setf (aref stacks (1- (move-from move)))
+            (nthcdr (move-n move) (aref stacks (1- (move-from move)))))
+      (print stacks))
+    (coerce
+     (loop for x across stacks
+           collect (car x))
+     'string)))
+
+(with-input-from-string (in *example1*)
+  (part2 in))
+
+(with-input-stream (in 2022 5)
+  (part2 in))
