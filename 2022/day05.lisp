@@ -95,3 +95,25 @@ move 1 from 1 to 2")
 
 (with-input-stream (in 2022 5)
   (part2 in))
+
+;; ok now let's see about doing this in APL..
+
+;; part 1
+(april-f "
+in←('xDx')('NCx')('ZMP')
+st←{⍵~'x'}¨↓(⊃,/⍪¨in)    ⍝  NZ  DCM P
+move←{[st;n;from;to]
+  ({n↓⊃⍵}@from) ({(⌽n↑from⊃st) , ⊃⍵}@to) st}
+st←move[st;1;2;1]           ⍝  DNZ  CM P
+st←move[st;3;1;3]           ⍝     CM  ZNDP
+")
+
+;; part 2 (just a single character change!)
+(april-f "
+in←('xDx')('NCx')('ZMP')
+st←{⍵~'x'}¨↓(⊃,/⍪¨in)    ⍝  NZ  DCM P
+move←{[st;n;from;to]
+  ({n↓⊃⍵}@from) ({(n↑from⊃st) , ⊃⍵}@to) st}
+st←move[st;1;2;1]           ⍝  DNZ  CM P
+st←move[st;3;1;3]           ⍝     CM  DNZP
+")
