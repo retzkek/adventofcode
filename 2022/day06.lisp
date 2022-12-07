@@ -7,9 +7,21 @@
     "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
     "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"))
 
-(defun find-marker (buf)
-  (april-c "{3+(+/ ¨≠ ¨ ↓⍉4 ((≢⍵)+1) ⍴ ⍵) ⍳ 4}" buf))
+(defun find-marker (len buf)
+  (april-c (with (:state :in ((len len))))
+           "{(len-1)+(+/ ¨ ≠ ¨ ↓⍉len ((≢⍵)+1) ⍴ ⍵) ⍳ len}"
+           buf))
 
-(mapcar 'find-marker *examples*)
+(defun part1 (buf)
+  (find-marker 4 buf))
 
-(find-marker (first (input-as-lines 2022 6)))
+(mapcar 'part1 *examples*)
+
+(part1 (first (input-as-lines 2022 6)))
+
+(defun part2 (buf)
+  (find-marker 14 buf))
+
+(mapcar 'part2 *examples*)
+
+(part2 (first (input-as-lines 2022 6)))
