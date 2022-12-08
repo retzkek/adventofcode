@@ -4,7 +4,8 @@
 (defpackage aoc
   (:use cl
         drakma
-        april)
+        april
+        cl-ppcre)
   (:export fetch-input
            with-input-stream
            read-lines
