@@ -72,3 +72,16 @@ $ ls
 (with-input-from-string (in *example1*) (part1 in))
 
 (with-input-stream (in 2022 7) (part1 in))
+
+(defun part2 (stream)
+  (let* ((fs (parse stream))
+         (total 70000000)
+         (need 30000000)
+         (used (total-size fs))
+         (min-delete (- need (- total used)))
+         (sizes (total-sizes fs)))
+    (apply 'min (remove-if-not (lambda (x) (> x min-delete)) sizes))))
+
+(with-input-from-string (in *example1*) (part2 in))
+
+(with-input-stream (in 2022 7) (part2 in))
