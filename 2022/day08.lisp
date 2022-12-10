@@ -1,4 +1,4 @@
-(in-pakage aoc)
+(in-package aoc)
 
 (defparameter *example1* "30373
 25512
