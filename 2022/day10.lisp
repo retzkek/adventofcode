@@ -23,6 +23,17 @@ x←(1,1++⍀in)
 
 (with-input-stream (in 2022 10) (part1 in))
 
+(defun part2 (stream)
+  (april-f (with (:state :in ((in (parse stream))))) "
+x←6 40 ⍴ 1++⍀in
+y←6 40⍴⍳40
+8×(y=x-1)∨(y=x)∨(y=x+1)
+"))
+
+(with-input-from-string (in *example1*) (part2 in))
+
+(with-input-stream (in 2022 10) (part2 in))
+
 (defparameter *example1* "addx 15
 addx -11
 addx 6
