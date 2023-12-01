@@ -11,5 +11,8 @@ mkShell {
 
     julia
 
+    elixir
+
+    emacs
   ];
 }
