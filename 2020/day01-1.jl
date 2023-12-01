@@ -1,3 +1,4 @@
+include("../AOCData.jl")
 using Test
 
 # This solution can return false positives in the general case, see
@@ -12,6 +13,4 @@ end
 
 @test main([1721,979,366,299,675,1456]) == 514579
 
-open("input/day01.txt") do f
-    println(main(map(x->parse(Int,x), readlines(f))))
-end
+println(main(AOCData.input(2020,1,Int)))
