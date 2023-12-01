@@ -11,6 +11,7 @@ end
 
 function fetchinput(year::Int,day::Int,output::Union{AbstractString,IO})
     url = @sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
+    @debug "fetching input from $url"
     Downloads.download(url, output, headers=Dict("Cookie"=>"session="*loadtoken()))
 end
 
@@ -20,7 +21,7 @@ function input(year::Int,day::Int)
         mkpath(od)
     end
     of = joinpath(od,"input.txt")
-    if !isfile(od)
+    if !isfile(of)
         fetchinput(year,day,of)
     end
     open(of) do f

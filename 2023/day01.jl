@@ -55,9 +55,9 @@ end
 end
 
 function part2()
-    for c in AOCData.input(2023,1)
-        @debug c calibration2(c)
-    end
+    #for c in AOCData.input(2023,1)
+    #    @debug c calibration2(c)
+    #end
     AOCData.input(2023,1) .|> calibration2 |> sum |> println
 end
 
