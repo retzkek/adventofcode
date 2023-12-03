@@ -1,21 +1,25 @@
 # AOC
 
-**TODO: Add description**
+[Advent of Code](https://adventofcode.com/) solutions in Elixir, structured as a mix package for dependencies and testing. 
 
-## Installation
+* Problems are in modules named like `AOC.YearYY.DayDD` in `lib/yearYY/dayDD.ex`. 
+* Tests are in `test/yearYY/dayDD_test.exs`.
+* General helper libraries are in module `AOC`.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `adventofcode` to your list of dependencies in `mix.exs`:
+Run `mix test` to run **all** tests. To test a specific day:
 
-```elixir
-def deps do
-  [
-    {:adventofcode, "~> 0.1.0"}
-  ]
-end
-```
+    mix test test/yearYY/dayDD_test.ex
+  
+To run a single problem:
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/adventofcode>.
+    mix run -e AOC.YearYY.DayDD.partN
+    
+or whatever the entrypoint function was named for that problem.
 
+## Helpers
+
+The `AOC` module contains helper functions to download and cache problem input.
+Put your cookie session key into `~/.config/aocd/token`. Then you can call
+`AOC.input(year, day)` to get the input in a single string, where `year` is the
+four-digit year and `day` is the unpadded day of the month. Call
+`AOC.input(year, day, :lines)` to get the input split into a list of lines.
