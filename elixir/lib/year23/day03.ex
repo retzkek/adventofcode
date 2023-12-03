@@ -60,4 +60,31 @@ defmodule AOC.Year23.Day03 do
     |> Enum.reduce(&+/2)
     |> IO.puts()
   end
+
+  def gear_ratios(schematic) do
+    numbers = Enum.filter(schematic, fn x -> x[:number] end)
+    gears = Enum.filter(schematic, fn x -> x[:symbol] == ?* end)
+
+    Enum.flat_map(gears, fn g ->
+      Enum.filter(numbers, fn n ->
+        g[:row] >= n[:row] - 1 && g[:row] <= n[:row] + 1 &&
+          g[:col] >= n[:col] - 1 && g[:col] <= n[:col] + number_length(n[:number])
+      end)
+      |> then(fn ns ->
+        if length(ns) == 2 do
+          [Enum.reduce(ns, 1, fn n, ratio -> ratio * n[:number] end)]
+        else
+          []
+        end
+      end)
+    end)
+  end
+
+  def part2() do
+    AOC.input(2023, 3)
+    |> read_schematic()
+    |> gear_ratios()
+    |> Enum.reduce(&+/2)
+    |> IO.puts()
+  end
 end

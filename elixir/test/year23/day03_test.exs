@@ -47,4 +47,8 @@ defmodule AOC.Year23.Day03Test do
 
     assert read_schematic(@test_input) |> part_numbers() |> Enum.reduce(&+/2) == 4361
   end
+
+  test "gear ratios" do
+    assert read_schematic(@test_input) |> gear_ratios() == [16345, 451_490]
+  end
 end
