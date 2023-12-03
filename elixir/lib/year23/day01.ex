@@ -46,8 +46,11 @@ defmodule AOC.Year23.Day01 do
     |> Enum.reduce(&+/2)
   end
 
-  def main() do
+  def part1() do
     IO.puts(sum_calibrations(AOC.input(2023, 1, :lines), 1))
+  end
+
+  def part2() do
     IO.puts(sum_calibrations(AOC.input(2023, 1, :lines), 2))
   end
 end

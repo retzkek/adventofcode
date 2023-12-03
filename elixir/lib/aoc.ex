@@ -37,6 +37,6 @@ defmodule AOC do
   end
 
   def input(year, day, :lines) do
-    String.split(input(year,day))
+    String.split(input(year,day),"\n",trim: true)
   end
 end
