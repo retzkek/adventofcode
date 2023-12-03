@@ -74,6 +74,29 @@ defmodule AOC.Year23.Day02Test do
       "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
       "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
     ], %{red: 12, green: 13, blue: 14}) == 8
+  end
+
+  test "min cubes required" do
+    assert read_game("Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green")
+           |> min_cubes == %{red: 4, green: 2, blue: 6}
+
+    assert read_game("Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue")
+           |> min_cubes == %{red: 1, green: 3, blue: 4}
+
+    assert read_game("Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red")
+           |> min_cubes == %{red: 20, green: 13, blue: 6}
+
+    assert read_game("Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red")
+           |> min_cubes == %{red: 14, green: 3, blue: 15}
+
+    assert read_game("Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
+           |> min_cubes == %{red: 6, green: 3, blue: 2}
 
   end
+
+  test "cube power" do
+    assert power(%{red: 4, green: 2, blue: 6}) == 48
+  end
+
+
 end

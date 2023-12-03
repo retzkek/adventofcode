@@ -58,12 +58,36 @@ defmodule AOC.Year23.Day02 do
 
   def sum_possible_games(lines, cubes) do
     Enum.map(lines, &read_game/1)
-    |> Enum.reduce(0, fn x,acc -> acc+game_value(x,cubes) end)
+    |> Enum.reduce(0, fn x, acc -> acc + game_value(x, cubes) end)
   end
 
   def part1() do
     AOC.input(2023, 2, :lines)
     |> sum_possible_games(%{red: 12, green: 13, blue: 14})
+    |> IO.puts()
+  end
+
+  def min_cubes({_, draws}) do
+    Enum.reduce(draws, hd(draws), fn draw, mins ->
+      %{
+        red: max(Map.get(draw, :red), Map.get(mins, :red)),
+        green: max(Map.get(draw, :green), Map.get(mins, :green)),
+        blue: max(Map.get(draw, :blue), Map.get(mins, :blue))
+      }
+    end)
+  end
+
+  def power(cubes) do
+    cubes.red*cubes.green*cubes.blue
+  end
+
+  def part2() do
+    Enum.map(AOC.input(2023, 2, :lines), fn x ->
+      read_game(x)
+      |> min_cubes
+      |> power
+    end)
+    |> Enum.reduce(&+/2)
     |> IO.puts
   end
 end
