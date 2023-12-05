@@ -53,18 +53,18 @@ humidity-to-location map:
 
   test "mapping" do
     alm = read_almanac(@test_input)
-    assert amap(79, alm[:seed_to_soil]) == 81
-    assert amap(14, alm[:seed_to_soil]) == 14
-    assert amap(55, alm[:seed_to_soil]) == 57
-    assert amap(13, alm[:seed_to_soil]) == 13
+    assert amap(79, alm[:seed_to_soil]) == {81, 19}
+    assert amap(14, alm[:seed_to_soil]) == {14, 50}
+    assert amap(55, alm[:seed_to_soil]) == {57, 43}
+    assert amap(13, alm[:seed_to_soil]) == {13, 50}
   end
 
   test "location for seed" do
     alm = read_almanac(@test_input)
-    assert location_for_seed(alm, 79) == 82
-    assert location_for_seed(alm, 14) == 43
-    assert location_for_seed(alm, 55) == 86
-    assert location_for_seed(alm, 13) == 35
+    assert location_for_seed(alm, 79) == {82, 3}
+    assert location_for_seed(alm, 14) == {43, 8}
+    assert location_for_seed(alm, 55) == {86, 4}
+    assert location_for_seed(alm, 13) == {35, 2}
     assert min_seed_location(alm) == 35
     assert min_seed_range_location(alm) == 46
   end

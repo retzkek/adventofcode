@@ -56,27 +56,54 @@ defmodule AOC.Year23.Day05 do
   end
 
   def amap(src, mapping) do
-    Enum.reduce_while(mapping, src, fn m, dest ->
+    {dest, skip} =
+      Enum.reduce_while(mapping, src, fn m, _ ->
         if src >= m[:src] && src <= m[:src] + m[:length] - 1 do
-          {:halt, m[:dest] + src - m[:src]}
-      else
-          {:cont, dest}
-      end
-    end)
+          {:halt, {m[:dest] + src - m[:src], m[:src] + m[:length] - src}}
+        else
+          {:cont, {src, 1}}
+        end
+      end)
+
+    if skip == 1 do
+      # find where the next highest range, if any, starts
+      {dest,
+       Enum.map(mapping, fn m -> m[:src] end)
+       |> Enum.filter(fn x -> x > src end)
+       |> then(fn x ->
+         if length(x) == 0 do
+           # there's no next range, so go big
+           999_999_999
+         else
+           Enum.reduce(x, &min/2)
+         end
+       end)}
+    else
+      {dest, skip}
+    end
   end
 
   def location_for_seed(almanac, seed) do
-    amap(seed, almanac[:seed_to_soil])
-    |> amap(almanac[:soil_to_fertilizer])
-    |> amap(almanac[:fertilizer_to_water])
-    |> amap(almanac[:water_to_light])
-    |> amap(almanac[:light_to_temperature])
-    |> amap(almanac[:temperature_to_humidity])
-    |> amap(almanac[:humidity_to_location])
+    steps = [
+      almanac[:soil_to_fertilizer],
+      almanac[:fertilizer_to_water],
+      almanac[:water_to_light],
+      almanac[:light_to_temperature],
+      almanac[:temperature_to_humidity],
+      almanac[:humidity_to_location]
+    ]
+
+    Enum.reduce(steps, amap(seed, almanac[:seed_to_soil]), fn step, {x, skip} ->
+      {x2, skip2} = amap(x, step)
+      {x2, min(skip, skip2)}
+    end)
   end
 
   def min_seed_location(almanac) do
-    Enum.map(almanac[:seeds], fn x -> location_for_seed(almanac, x) end)
+    Enum.map(almanac[:seeds], fn x ->
+      {loc, _} = location_for_seed(almanac, x)
+      loc
+    end)
     |> Enum.reduce(&min/2)
   end
 
@@ -88,9 +115,18 @@ defmodule AOC.Year23.Day05 do
   end
 
   def locations_for_seed_range(almanac, [s, l]) do
-    IO.puts("starting #{s} (#{l})")
-      Enum.map(s..(s + l - 1), &(Task.async(fn -> location_for_seed(almanac, &1) end)))
-      |> Enum.map(&Task.await/1)
+    locations_for_seed_range(almanac, [s, l], s)
+  end
+
+  def locations_for_seed_range(almanac, [s, l], c) do
+    # IO.puts("starting #{s}@#{c}")
+    if c > s + l do
+      []
+    else
+      {loc, skip} = location_for_seed(almanac, c)
+      # IO.puts("... =#{loc}, seed+#{skip}")
+      [loc | locations_for_seed_range(almanac, [s, l], c + skip)]
+    end
   end
 
   def min_seed_range_location(almanac) do
