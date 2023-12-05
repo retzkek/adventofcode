@@ -87,11 +87,15 @@ defmodule AOC.Year23.Day05 do
     |> IO.puts()
   end
 
+  def locations_for_seed_range(almanac, [s, l]) do
+    IO.puts("starting #{s} (#{l})")
+      Enum.map(s..(s + l - 1), &(Task.async(fn -> location_for_seed(almanac, &1) end)))
+      |> Enum.map(&Task.await/1)
+  end
+
   def min_seed_range_location(almanac) do
     Enum.chunk_every(almanac[:seeds], 2)
-    |> Enum.flat_map(fn [s, l] ->
-      Enum.map(s..(s + l - 1), fn x -> location_for_seed(almanac, x) end)
-    end)
+    |> Enum.flat_map(fn x -> locations_for_seed_range(almanac, x) end)
     # |> IO.inspect()
     |> Enum.reduce(&min/2)
   end
