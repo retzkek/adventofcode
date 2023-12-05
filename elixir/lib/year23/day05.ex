@@ -56,16 +56,11 @@ defmodule AOC.Year23.Day05 do
   end
 
   def amap(src, mapping) do
-    Enum.reduce(mapping, src, fn m, dest ->
-      cond do
-        dest != src ->
-          dest
-
-        src >= m[:src] && src <= m[:src] + m[:length] - 1 ->
-          m[:dest] + src - m[:src]
-
-        true ->
-          src
+    Enum.reduce_while(mapping, src, fn m, dest ->
+        if src >= m[:src] && src <= m[:src] + m[:length] - 1 do
+          {:halt, m[:dest] + src - m[:src]}
+      else
+          {:cont, dest}
       end
     end)
   end
@@ -89,6 +84,22 @@ defmodule AOC.Year23.Day05 do
     AOC.input(2023, 5)
     |> read_almanac()
     |> min_seed_location()
+    |> IO.puts()
+  end
+
+  def min_seed_range_location(almanac) do
+    Enum.chunk_every(almanac[:seeds], 2)
+    |> Enum.flat_map(fn [s, l] ->
+      Enum.map(s..(s + l - 1), fn x -> location_for_seed(almanac, x) end)
+    end)
+    # |> IO.inspect()
+    |> Enum.reduce(&min/2)
+  end
+
+  def part2() do
+    AOC.input(2023, 5)
+    |> read_almanac()
+    |> min_seed_range_location()
     |> IO.puts()
   end
 end

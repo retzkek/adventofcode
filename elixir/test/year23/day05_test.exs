@@ -66,5 +66,6 @@ humidity-to-location map:
     assert location_for_seed(alm, 55) == 86
     assert location_for_seed(alm, 13) == 35
     assert min_seed_location(alm) == 35
+    assert min_seed_range_location(alm) == 46
   end
 end
