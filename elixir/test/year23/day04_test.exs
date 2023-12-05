@@ -26,6 +26,12 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11" |> String.split("\n")
     assert points([1]) == 1
     assert points([1, 2]) == 2
     assert points([1, 2, 3]) == 4
-    assert Enum.map(@test_input, fn x -> read_scratchcard(x) |> winning_numbers() |> points() end) == [8, 2, 2, 1, 0, 0]
+
+    assert Enum.map(@test_input, fn x -> read_scratchcard(x) |> winning_numbers() |> points() end) ==
+             [8, 2, 2, 1, 0, 0]
+  end
+
+  test "extra cards" do
+    assert Enum.map(@test_input, &read_scratchcard/1) |> win_scratchers == [1, 2, 4, 8, 14, 1]
   end
 end
