@@ -48,4 +48,19 @@ defmodule AOC.Year23.Day06 do
     |> Enum.reduce(1, &*/2)
     |> IO.puts()
   end
+
+  def fix_record(time: time, distance: distance) do
+    {
+      Enum.join(time) |> String.to_integer(),
+      Enum.join(distance) |> String.to_integer()
+    }
+  end
+
+  def part2() do
+    AOC.input(2023, 6)
+    |> read_records()
+    |> fix_record()
+    |> beat_record()
+    |> IO.puts()
+  end
 end
