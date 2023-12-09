@@ -42,4 +42,24 @@ defmodule AOC.Year23.Day09 do
     |> Enum.reduce(&+/2)
     |> IO.puts()
   end
+
+  def prev(ns) do
+    if Enum.all?(ns, &(&1 == 0)) do
+      0
+    else
+      Enum.reduce(tl(ns), {hd(ns), []}, fn x, {last, diffs} ->
+        {x, [x - last | diffs]}
+      end)
+      |> then(fn {_, diffs} -> hd(ns) - prev(Enum.reverse(diffs)) end)
+    end
+  end
+
+  def part2() do
+    AOC.input(2023, 9)
+    |> read_report()
+    |> Enum.map(&prev/1)
+    |> IO.inspect()
+    |> Enum.reduce(&+/2)
+    |> IO.puts()
+  end
 end
