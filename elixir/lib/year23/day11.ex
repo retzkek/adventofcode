@@ -43,22 +43,27 @@ defmodule AOC.Year23.Day11 do
     Enum.reject(0..(nc - 1), &Enum.find(gx, fn {_, c} -> c == &1 end))
   end
 
-  def dist_between({r1, c1}, {r2, c2}, er, ec) do
+  def dist_between({r1, c1}, {r2, c2}, er, ec, expansion \\ 2) do
     # taxi distance, with extra distance added for all empty rows and columns in between
-    abs(r2 - r1) + Enum.count(r1..r2, &(&1 in er)) +
-      abs(c2 - c1) + Enum.count(c1..c2, &(&1 in ec))
+    abs(r2 - r1) + (expansion - 1) * Enum.count(r1..r2, &(&1 in er)) +
+      abs(c2 - c1) + (expansion - 1) * Enum.count(c1..c2, &(&1 in ec))
   end
 
-  def dists_between_all([_], _, _) do
+  def dists_between_all(gx, er, ec) do
+    dists_between_all(gx, er, ec, 2)
+  end
+
+  def dists_between_all([_], _, _, _) do
     []
   end
 
-  def dists_between_all([g | gx], er, ec) do
-    Enum.map(gx, &dist_between(g, &1, er, ec)) ++ dists_between_all(gx, er, ec)
+  def dists_between_all([g | gx], er, ec, expansion) do
+    Enum.map(gx, &dist_between(g, &1, er, ec, expansion)) ++
+      dists_between_all(gx, er, ec, expansion)
   end
 
-  def sum_dist_between({{nr, nc}, gx}) do
-    dists_between_all(gx, empty_rows({{nr, nc}, gx}), empty_cols({{nr, nc}, gx}))
+  def sum_dist_between({{nr, nc}, gx}, expansion \\ 2) do
+    dists_between_all(gx, empty_rows({{nr, nc}, gx}), empty_cols({{nr, nc}, gx}), expansion)
     # |> IO.inspect()
     |> Enum.reduce(&+/2)
   end
@@ -67,6 +72,13 @@ defmodule AOC.Year23.Day11 do
     AOC.input(2023, 11)
     |> read_image()
     |> sum_dist_between()
+    |> IO.puts()
+  end
+
+  def part2() do
+    AOC.input(2023, 11)
+    |> read_image()
+    |> sum_dist_between(1_000_000)
     |> IO.puts()
   end
 end

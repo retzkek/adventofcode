@@ -26,4 +26,10 @@ defmodule AOC.Year23.Day11Test do
     assert dist_between({0, 3}, {8, 7}, empty_rows(img), empty_cols(img)) == 15
     assert sum_dist_between(img) == 374
   end
+
+  test "extra expansion" do
+    img = read_image(@test_input1)
+    assert sum_dist_between(img, 10) == 1030
+    assert sum_dist_between(img, 100) == 8410
+  end
 end
