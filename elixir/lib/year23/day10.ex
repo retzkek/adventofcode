@@ -73,7 +73,7 @@ defmodule AOC.Year23.Day10 do
     trace_pipes(sketch, [start], connections(sketch, start))
   end
 
-  def trace_pipes(sketch, path, []) do
+  def trace_pipes(_, path, []) do
     path
   end
 

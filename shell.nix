@@ -14,5 +14,6 @@ mkShell {
     elixir
 
     emacs
+    neovim
   ];
 }
