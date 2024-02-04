@@ -11,6 +11,10 @@ mkShell {
 
     julia
 
+    janet
+    jpm
+    gcc
+
     elixir
 
     emacs
