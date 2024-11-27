@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day15
-  (:require [retzkek.aoc :as aoc]
+(ns year21.day15
+  (:require [aoc]
             [clojure.string :as str]))
 
 

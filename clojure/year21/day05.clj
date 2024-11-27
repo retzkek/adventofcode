@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day05
-  (:require [retzkek.aoc :as aoc]
+(ns year21.day05
+  (:require [aoc]
             [clojure.string :as str]))
 
 (def line-pattern #"(\d+),(\d+) -> (\d+),(\d+)")

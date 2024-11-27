@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day14
-  (:require [retzkek.aoc :as aoc]
+(ns year21.day14
+  (:require [aoc]
             [clojure.string :as str]))
 
 (defn parse-input [lines]

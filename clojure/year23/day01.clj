@@ -21,7 +21,7 @@
          "pqr3stu8vwx"
          "a1b2c3d4e5f"
          "treb7uchet"]) ; [12 38 15 77]
-  (part1) 
+  (part1)
   )
 
 (defn mapn [n]

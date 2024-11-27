@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day02
-  (:require [retzkek.aoc :as aoc]))
+(ns year21.day02
+  (:require [aoc]))
 
 (defn parseline
   [line]

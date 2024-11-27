@@ -1,4 +1,4 @@
-{:paths ["2021" "2024"]
+{:paths ["."]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         aocd/aocd {:mvn/version "0.1.1"}}
  :aliases

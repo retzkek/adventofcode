@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day16
-  (:require [retzkek.aoc :as aoc]
+(ns year21.day16
+  (:require [aoc]
             [clojure.string :as str]))
 
 (defn hex->bin [msg]

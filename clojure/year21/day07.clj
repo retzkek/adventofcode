@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day07
-  (:require [retzkek.aoc :as aoc]))
+(ns year21.day07
+  (:require [aoc]))
 
 (defn fuel-cost [crabs pos]
   (reduce + (map #(Math/abs (- pos %)) crabs)))

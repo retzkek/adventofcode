@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day20
-  (:require [retzkek.aoc :as aoc]
+(ns year21.day20
+  (:require [aoc]
             [clojure.string :as cs]))
 
 (defn convert-image [s]

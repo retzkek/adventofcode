@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day06
-  (:require [retzkek.aoc :as aoc]))
+(ns year21.day06
+  (:require [aoc]))
 
 (defn simulate-day [fish]
   (reduce (fn [fish a-fish]

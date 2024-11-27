@@ -1,5 +1,5 @@
-(ns retzkek.aoc21.day01
-  (:require [retzkek.aoc :as aoc]))
+(ns year21.day01
+  (:require [aoc]))
 
 (defn count-increases [depths]
   (loop [prev -1
@@ -37,4 +37,6 @@
            263])
   (count-increases ex)
   (count-sum-increases ex)
+  (part1)
+  (part2)
   )
