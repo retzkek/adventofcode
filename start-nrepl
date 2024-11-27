@@ -1,0 +1,8 @@
+#!/bin/sh
+SESS=aoc-nrepl
+if tmux ls -F '#S' | grep -q "$SESS"; then
+    echo "session $SESS already running"
+else
+    echo "starting new session $SESS"
+    tmux new-sess -s "$SESS" -n nrepl -d 'nix-shell --run "clj -Mnrepl"'
+fi

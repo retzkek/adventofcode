@@ -1,4 +1,4 @@
-(ns retzkek.aoc
+(ns aoc
   (:require [aocd.core :as data]
             [clojure.string :as str])
   (:gen-class))
@@ -31,3 +31,8 @@
   "I don't do a whole lot ... yet."
   [& args]
   (greet {:name (first args)}))
+
+(comment
+  (get-input 2023 1)
+  (get-input-lines 2023 1)
+  )

@@ -9,11 +9,19 @@ mkShell {
     asdf
     openssl.out
 
-    julia
+    #julia
 
     elixir
 
+    jdk
+    clojure
+    babashka
+    neil
+    clojure-lsp
+    clj-kondo
+
     emacs
     neovim
+    tmux
   ];
 }

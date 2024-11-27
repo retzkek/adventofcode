@@ -1,1 +1,5 @@
 *.fasl
+.nrepl-port
+.clj-kondo
+.lsp
+.cpcache
