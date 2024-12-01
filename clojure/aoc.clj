@@ -22,6 +22,10 @@
         (remove empty?
                 (str/split line sep))))
 
+(defn get-input-map
+  [year month]
+  (mapv #(str/split % #"") (get-input-lines year month)))
+
 (defn greet
   "Callable entry point to the application."
   [data]
@@ -35,4 +39,5 @@
 (comment
   (get-input 2023 1)
   (get-input-lines 2023 1)
+  (get-in (get-input-map 2023 16) [0 0])
   )
