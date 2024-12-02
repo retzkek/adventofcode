@@ -17,6 +17,9 @@
   (->> (get-input-lines year month)
        (mapv #(Integer/parseInt %))))
 
+(defn lines [inp]
+  (str/split inp #"\n"))
+
 (defn line->ints [line sep]
   (mapv #(Integer/parseInt %)
         (remove empty?
