@@ -3,47 +3,20 @@
 Test   ← $ xmul(2,4)do()&mul[3,7]!^don't()_mul(5,5)don't()+mul(32,64](mul(11,8)undo()?mul(8,5))
 Parse₁ ← regex $ mul\((\d+),(\d+)\)
 Parse₁ Test
-## ╭─
-## ╷ ⌜mul(2,4)⌟  ⌜2⌟  ⌜4⌟
-##   ⌜mul(5,5)⌟  ⌜5⌟  ⌜5⌟
-##   ⌜mul(11,8)⌟ ⌜11⌟ ⌜8⌟
-##   ⌜mul(8,5)⌟  ⌜8⌟  ⌜5⌟
-##                        ╯
 P₁ ← ⬚0/(+⊙(/×⋕↘₁))
 ⍤⤙= 161 P₁
 
 Parse₂ ← ⬚""regex $ mul\((\d+),(\d+)\)|do\(\)|don't\(\)
 Parse₂ Test
-## ╭─
-## ╷ ⌜mul(2,4)⌟  ⌜2⌟  ⌜4⌟
-##   ⌜do()⌟      ⌜⌟   ⌜⌟
-##   ⌜don't()⌟   ⌜⌟   ⌜⌟
-##   ⌜mul(5,5)⌟  ⌜5⌟  ⌜5⌟
-##   ⌜don't()⌟   ⌜⌟   ⌜⌟
-##   ⌜mul(11,8)⌟ ⌜11⌟ ⌜8⌟
-##   ⌜do()⌟      ⌜⌟   ⌜⌟
-##   ⌜mul(8,5)⌟  ⌜8⌟  ⌜5⌟
-##                        ╯
 P₂ ← (
   ≡(+×₂∩(/+⌕)"do(","don" °□⊢). # classify
-  ## [0 2 1 0 1 0 2 0]
-  ↘₁⬚1\(⨬(∘|¯1|1):) # propogate do() and don't()
-  ## [1 1 ¯1 ¯1 ¯1 ¯1 1 1]
-  ▽>₀ # drop disabled mul() and don't()                  ╯
-  ## ╭─
-  ## ╷ ⌜mul(2,4)⌟ ⌜2⌟ ⌜4⌟
-  ##   ⌜do()⌟     ⌜⌟  ⌜⌟
-  ##   ⌜do()⌟     ⌜⌟  ⌜⌟
-  ##   ⌜mul(8,5)⌟ ⌜8⌟ ⌜5⌟
-  ##                      ╯
-  ▽≡(/+⌕"mul"°□⊢). # drop do()
-  ## ╭─
-  ## ╷ ⌜mul(2,4)⌟ ⌜2⌟ ⌜4⌟
-  ##   ⌜mul(8,5)⌟ ⌜8⌟ ⌜5⌟
-  ##                      ╯
+  ↘₁⬚1\(⨬(∘|¯1|1):)            # propogate do() and don't()
+  ▽>₀                          # drop disabled mul() and don't()                  ╯
+  ▽≡(/+⌕"mul"°□⊢).             # drop do()
   P₁
 )
 ⍤⤙= 48 P₂
 
-&fras $"_/.config/aocd/2024/3/input.txt" &var "HOME"
+AOC ~ "../aoc.ua"
+AOC~Input 2024 3
 &p⊃(P₁ Parse₁) (P₂ Parse₂)
