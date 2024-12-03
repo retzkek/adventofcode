@@ -5,7 +5,7 @@ with pkgs;
 mkShell {
   name="uiua";
   buildInputs = [
-    uiua
+    #uiua
 
     neovim
     tmux
