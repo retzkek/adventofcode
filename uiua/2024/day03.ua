@@ -3,15 +3,15 @@
 Test   ← $ xmul(2,4)do()&mul[3,7]!^don't()_mul(5,5)don't()+mul(32,64](mul(11,8)undo()?mul(8,5))
 Parse₁ ← regex $ mul\((\d+),(\d+)\)
 Parse₁ Test
-P₁ ← ⬚0/(+⊙(/×⋕↘₁))
+P₁ ← /+≡(/×⋕↘₁)
 ⍤⤙= 161 P₁
 
 Parse₂ ← ⬚""regex $ mul\((\d+),(\d+)\)|do\(\)|don't\(\)
 Parse₂ Test
 P₂ ← (
-  ≡(+×₂∩(/+⌕)"do(","don" °□⊢). # classify
-  ↘₁⬚0\(⨬(+₁|¯∞|0):)           # propogate do() and don't()
-  P₁ ▽>₀                       # filter input and run
+  ≡(+×₂∩(/+◇⌕)"do(","don" ⊢). # classify
+  ↘₁⬚0\(⨬(+₁|¯∞|0):)          # propagate do() and don't()
+  P₁ ▽>₀                      # filter input and run
 )
 ⍤⤙= 48 P₂
 
