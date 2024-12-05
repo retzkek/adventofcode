@@ -40,11 +40,11 @@ Parse Test
   ◇≡⇌:¤                  # turn rules into anti-rules
   /+≡(/+♭◇⌕)             # count anti-rules appearing in orderings
 )
-P₁ ← (
-  ▽:⟜(=₀≡👎⊙¤)      # filter incorrect orderings
-  ≡(⊡⊙°□)⊸(⌊÷₂≡◇⧻) # get the middle pages
-  /+
-)
+# middle row of an array
+⎅ ← ⊡⌊÷₂⊸⧻
+⍤ ⤙= 4 ⎅⇡9
+
+P₁ ← /+≡◇⎅▽:⟜(=₀≡👎⊙¤)
 ⍤⤙= 143 P₁
 
 AOC ~ "../aoc.ua"
