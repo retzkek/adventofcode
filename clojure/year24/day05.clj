@@ -22,7 +22,7 @@
           :updates (fn [& rest] {:updates (vec rest)})
           :S #(merge %1 %2)})))
 
-(defn pairs [pages]
+(defn pairs-fn [pages]
   (loop [ps (rest pages)
          f (first pages)
          acc nil]
@@ -32,6 +32,7 @@
              (first ps)
              (concat acc
                      (map #(vector f %) ps))))))
+(def pairs (memoize pairs-fn))
 
 (defn update-ok? [rules pages]
   (let [anti-rules (map reverse rules)
@@ -52,9 +53,41 @@
 (comment
   (def inp (slurp "year24/day05_test.txt"))
   (parse-inp inp)
-  (concat [1 2 3] [4 5])
   (pairs [75 97 47 61 53])
   (update-ok? (:rules (parse-inp inp)) [75 97 47 61 53])
   (part1 inp) ; 143
   (part1 (aoc/get-input 2024 05)) ; 5391
+  )
+
+(defn broken-rules [rules pages]
+  (let [anti-rules (map reverse rules)
+        pp (pairs pages)]
+    (map reverse (remove nil? (map #(some #{%} pp) anti-rules)))))
+
+(defn swap-in [v a b]
+  (let [ia (.indexOf v a)
+        ib (.indexOf v b)]
+    (assoc v ia b ib a)))
+
+(defn fix-update [rules pages]
+  (loop [ps pages]
+    (let [bk (broken-rules rules ps)]
+      (if (empty? bk)
+        ps
+        (recur (swap-in ps (first (first bk)) (last (first bk))))))))
+
+(defn part2 [inp]
+  (let [{:keys [rules updates]} (parse-inp inp)]
+    (->> (remove #(update-ok? rules %) updates)
+         (map #(fix-update rules %))
+         (map midel)
+         (reduce +))))
+
+(comment
+  (broken-rules (:rules (parse-inp inp)) [75 97 47 61 53])
+  (swap-in [75 97 47 61 53] 75 47)
+  (fix-update (:rules (parse-inp inp)) [97,13,75,29,47])
+  (part2 inp) ; 123
+  (part2 (aoc/get-input 2024 05)) ; 6142
+; 6142
   )
