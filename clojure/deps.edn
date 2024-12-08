@@ -1,5 +1,6 @@
 {:paths ["."]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        org.clojure/math.combinatorics {:mvn/version "0.3.0"}
         aocd/aocd {:mvn/version "0.1.1"}
         instaparse/instaparse {:mvn/version "1.5.0"}}
  :aliases
