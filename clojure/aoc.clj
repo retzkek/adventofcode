@@ -29,6 +29,8 @@
   [year month]
   (mapv #(str/split % #"") (get-input-lines year month)))
 
+(defmacro dbg[x] `(let [x# ~x] (println "dbg:" '~x "=" x#) x#))
+
 (defn greet
   "Callable entry point to the application."
   [data]

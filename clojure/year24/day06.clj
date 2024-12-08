@@ -51,12 +51,13 @@
     :left :up)
   )
 
-(defn guard-path [{:keys [rows cols guard obstacles] :as state}]
+(defn guard-path [{:keys [rows cols guard obstacles path] :as state}]
   (loop [[r c] (:at guard)
          dir (:facing guard)
-         path nil]
-    (if (out-of-range? rows cols [r c])
-      (assoc state :path (reverse path))
+         path path]
+    (if-let [why (or (and (out-of-range? rows cols [r c]) :oob)
+                     (and (some #{{:at [r c] :facing dir}} path) :loop))]
+      (assoc state :path (reverse path) :why why)
       (let [nloc (move-guard [r c] dir)
             blocked? (some #{nloc} obstacles)
             ndir (if blocked?
@@ -95,49 +96,35 @@
   (part1 (aoc/get-input 2024 6)) ; 4819
   )
 
-(defn find-xings [{:keys [path] :as state}]
+(defn find-loops [{:keys [path obstacles] :as state}]
   (loop [togo path
          been nil
-         xings nil]
+         loops nil]
     (if (empty? togo)
-      (assoc state :xings xings)
-      (let [{:keys [at facing] :as pos} (first togo)]
+      (assoc state :loops loops)
+      (let [{:keys [at facing] :as pos} (first togo)
+            npos (move-guard at facing)]
         (recur
           (rest togo)
           (conj been pos)
-          (if-let [was (or (some #(when (and (#{at} (:at %))
-                                             (= (:facing % )(turn-guard facing ))) %)
-                                 been)
-                           (some #(when (or
-                                          (and (= (second at) (second (:at %)))
-                                               (or (and (= facing :right)
-                                                        (< (first at) (first (:at %))))
-                                                   (and (= facing :left)
-                                                        (> (first at) (first (:at %)))))
-                                               (= (:facing %) (turn-guard facing)))
-                                          (and (= (first at) (first (:at %)))
-                                             (or (and (= facing :up)
-                                                      (< (second at) (second (:at %))))
-                                                 (and (= facing :down)
-                                                      (> (second at) (second (:at %)))))
-                                             (= (:facing %) (turn-guard facing)))) %)
-                                 been))]
-            (conj xings (move-guard at facing))
-            xings))))))
-
-(defn remove-oob [{:keys [rows cols xings]}]
-  (remove #(out-of-range? rows cols %) xings))
+          (if (= :loop (:why (guard-path (assoc state 
+                                                :path been
+                                                :guard {:at at :facing (turn-guard facing)}
+                                                :obstacles (conj obstacles npos)))))
+            (conj loops npos)
+            loops))))))
 
 (defn part2 [inp]
   (->> (parse-map inp)
        guard-path
-       find-xings
-       remove-oob
+       find-loops
+       :loops
+       count
        ))
 
 (comment
   (part2 inp) ; 6
-  (part2 (aoc/get-input 2024 6))
+  (part2 (aoc/get-input 2024 6)) ; 1972
   )
 
 
