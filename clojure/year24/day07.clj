@@ -40,8 +40,8 @@
              (rest xs)
              ((first fns) acc (first xs))))))
 
-(defn cando? [{:keys [res vals]}]
-  (let [pops (combo/selections [+ *] (dec (count vals)))] 
+(defn cando? [{:keys [res vals]} ops]
+  (let [pops (combo/selections ops (dec (count vals)))] 
     (reduce (fn [_ x] 
               (when (= (apply-fns x vals) res)
                 (reduced res))) 
@@ -50,7 +50,7 @@
 
 (defn part1 [inp]
   (->> (parse-inp inp)
-       (map cando?)
+       (map #(cando? % [+ *]))
        (remove nil?)
        (reduce +)))
 
@@ -60,3 +60,16 @@
   (part1 (aoc/get-input 2024 07)) ; 3312271365652
   )
 
+(defn catns [x y]
+  (Long/parseLong (str x y)))
+
+(defn part2 [inp]
+  (->> (parse-inp inp)
+       (map #(cando? % [+ * catns]))
+       (remove nil?)
+       (reduce +)))
+
+(comment
+  (part2 inp) ; 11387
+  (part2 (aoc/get-input 2024 07)) ; 509463489296712
+  )
