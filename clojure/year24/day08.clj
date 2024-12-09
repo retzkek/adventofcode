@@ -77,3 +77,50 @@
   (part1 inp) ; 14
   (part1 (aoc/get-input 2024 8)) ; 351
   )
+
+(defn antinodes2 [{:keys [rows cols ants] :as state}]
+  (assoc state :antinodes 
+         (reduce-kv (fn [m k v]
+                      (assoc m k 
+                             (disj
+                               (reduce (fn [l p]
+                                         (let [[_ r1 c1] (first p)
+                                               [_ r2 c2] (second p)
+                                               dr (- r2 r1)
+                                               dc (- c2 c1)
+                                               dd (aoc/gcd dr dc)
+                                               ddr (/ dr dd)
+                                               ddc (/ dc dd)]
+                                           (union l 
+                                                  (loop [ans #{}
+                                                         r r1
+                                                         c c1] 
+                                                    (if (oob? rows cols [r c]) 
+                                                      ans
+                                                      (recur (conj ans [r c]) (- r ddr) (- c ddc))))
+                                                  (loop [ans #{}
+                                                         r r2
+                                                         c c2] 
+                                                    (if (oob? rows cols [r c]) 
+                                                      ans
+                                                      (recur (conj ans [r c]) (+ r ddr) (+ c ddc))))
+                                                  ))) 
+                                       #{}
+                                       (combo/combinations v 2))
+                               nil)))
+                    {}
+                    ants)))
+
+(defn part2 [inp]
+  (->> (parse-map inp)
+       antinodes2
+       :antinodes
+       vals
+       (apply union)
+       count
+       ))
+
+(comment
+  (part2 inp) ; 34
+  (part2 (aoc/get-input 2024 8)) ; 1259
+  )
