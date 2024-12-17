@@ -2,9 +2,14 @@
   (:require [aoc]
             [clojure.pprint :refer [pprint]]
             [clojure.string :as st]
+            [clojure.java.io :refer [file]]
             [babashka.http-client :as http]
             [cheshire.core :as json]
-            [instaparse.core :as insta]))
+            [instaparse.core :as insta])
+  (:import (javax.imageio ImageIO)
+           (java.awt.image BufferedImage)
+           (java.io ByteArrayOutputStream)
+           (java.util Base64)))
 
 (def test1 "p=0,4 v=3,-3
 p=6,3 v=-1,-3
@@ -61,13 +66,15 @@ p=9,5 v=-3,-3
 ;                  "prompt":"Why is the sky blue?",
 ;                  "stream": false}'
 
-(defn ollama [q]
+(defn ollama [q & [params]]
   (try 
     (-> 
       (http/post "http://localhost:11434/api/generate"
-                 {:body (json/encode {:model "llama3.2-vision"
-                                      :prompt q
-                                      :stream false})})
+                 {:body (json/encode 
+                          (merge {:model "llama3.2-vision"
+                                  :prompt q
+                                  :stream false}
+                                 params))})
       :body
       (json/parse-string true)
       :response)
@@ -110,4 +117,48 @@ p=9,5 v=-3,-3
   (part2 test1 11 7)
   (step {:p [2,4] :v [2,-3]} 11 7 1) ; {:p [4 1], :v [2 -3]}
   (ollama "Is the sky blue? Only say yes or no.")  ; "Yes."
+  )
+
+(defn render-map 
+  "Render map to PNG and write to OutputStream os, and optionally also to file."
+  [w h bots os scale & [filename]]
+  (let [img (BufferedImage. (* w scale) (* h scale) BufferedImage/TYPE_INT_RGB)] 
+    (doseq [b bots] 
+      (.setRGB img 
+               (* scale (first (:p b))) 
+               (* scale (second (:p b))) 
+               scale scale 
+               (into-array Integer/TYPE (repeat scale 0x00ff88)) 
+               0 0))
+    (when filename (ImageIO/write img "png" (file filename)))
+    (ImageIO/write img "png" os)))
+
+(defn render-map-base64
+  "Render map to png and return base64 encoding. Optionally also write to file."
+  [w h bots scale & [filename]]
+  (let [os (ByteArrayOutputStream.)
+        enc (Base64/getEncoder)]
+    (render-map w h bots os scale filename)
+    (.encodeToString enc (.toByteArray os))))
+
+(defn find-tree-image [& args]
+  (loop [bots (mapv #(step % 101 103 1) (parse-inp (aoc/get-input 2024 14)))
+         w 101
+         h 103
+         i 1]
+    (let [m (render-map-base64 w h bots 1)
+          p (str "Does this image contain a christmas tree? Respond yes or no.")
+          r (ollama p {:images [m]})]
+      (println p)
+      (println i)
+      (println r)
+      (when (st/index-of r "No")
+        (recur (mapv #(step % w h 103) bots ) w h (+ i 103))))))
+
+(comment
+  (parse-inp test1)
+  (render-map 11 7 (parse-inp test1) (file "/tmp/test.png") 10)
+  (render-map 101 103 (parse-inp (aoc/get-input 2024 14)) (file "/tmp/test.png") 2)
+
+  (render-map-base64 11 7 (parse-inp test1) 10 "/tmp/test.png")
   )
