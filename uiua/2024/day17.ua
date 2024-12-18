@@ -8,7 +8,7 @@ Inp ←
 
 # Parse Input
 # Ret: pointer, program, A, B, C
-P ← |1.5 (
+P ← |1.6 (
   °$$ Register A: _
    $$ Register B: _
    $$ Register C: _
@@ -20,14 +20,16 @@ P ← |1.5 (
   ⤙⊙⊙⊙◌
   # instruction pointer
   0
+  # output
+  []
 )
 
 #                A    B     C
 Cmb ← ⨬(0|1|2|3|⋅⋅∘|⋅⋅⋅∘∘|⋅⋅⋅⋅∘)
 
-# All instructions |6.5
-# Args: operand, pointer, program, A, B, C
-# Ret: pointer, program, A, B, C
+# All instructions |6.5, Except Out, which is |7.6
+# Args: [output], operand, pointer, program, A, B, C
+# Ret: [output], pointer, program, A, B, C
 
 # The adv instruction (opcode 0) performs division. The numerator is the value in the A register. The denominator is found by raising 2 to the power of the instruction's combo operand. (So, an operand of 2 would divide A by 4 (2^2); an operand of 5 would divide A by 2^B.) The result of the division operation is truncated to an integer and then written to the A register.
 Adv ← +₂⊙⊙(⌊÷)⊃(⋅⊙∘|ⁿ:2Cmb|⋅⋅⋅⊙⊙∘)
@@ -53,6 +55,10 @@ Jnz ← ⨬(+₂⋅∘|∘)◡⋅⋅⋅>₀
 Bxc ← +₂⊃(⋅⊙⊙∘|⋅⋅⋅⋅⊸Xor)
 ⍤⤙≍[2 ¯1 0 2 10] ⊟₅ Bxc 1 0 ¯1 0 8 10
 
-# P Inp
-# ⨬(Adv|Bxl|Bst|Jnz) 
-# ◡⊃(⊡|⊡+₁)
+# The out instruction (opcode 5) calculates the value of its combo operand modulo 8, then outputs that value. (If a program outputs multiple values, they are separated by commas.)
+Out ← ⊃(⊂⊙(◿₈Cmb)|+₂⋅⋅⊙⊙⊙⊙∘)
+⍤⤙≍{[1 2 3] 2 ¯1 0 0 11} □₆ Out [1 2] 6 0 ¯1 0 0 11
+
+P Inp
+Run ← ⨬(⊙Adv|⊙Bxl|⊙Bst|⊙Jnz|⊙Bxc|Out) :⊙◡⊃(⊡|⊡+₁)
+⍢(Run|<⧻:◌)
