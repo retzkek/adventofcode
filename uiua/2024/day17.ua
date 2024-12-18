@@ -4,6 +4,7 @@ $ Register B: 0
 $ Register C: 0
 $ 
 $ Program: 0,1,5,4,3,0
+$ 
 Inp ←
 
 # Parse Input
@@ -17,6 +18,7 @@ P ← |1.6 (
    $$ Register C: _
    $$ 
    $$ Program: _
+   $$
   ⊓(∩⋕|⋕⊙(⊜⋕≠@,.))
   # move program to top
   ⤙⊙⊙⊙◌
@@ -24,17 +26,25 @@ P ← |1.6 (
   0
 )
 
-#                A    B     C
-Cmb ← ⨬(0|1|2|3|⋅⋅∘|⋅⋅⋅∘∘|⋅⋅⋅⋅∘)
-
 # All instructions |6.5, Except Out, which is |7.6
 # Args: operand, pointer, program, A, B, C, [output]
 # Ret:           pointer, program, A, B, C, [output]
+
+#                A    B     C
+Cmb ← ⨬(0|1|2|3|⋅⋅∘|⋅⋅⋅∘∘|⋅⋅⋅⋅∘)
 
 # The adv instruction (opcode 0) performs division. The numerator is the value in the A register. The denominator is found by raising 2 to the power of the instruction's combo operand. (So, an operand of 2 would divide A by 4 (2^2); an operand of 5 would divide A by 2^B.) The result of the division operation is truncated to an integer and then written to the A register.
 Adv ← +₂⊙⊙(⌊÷)⊃(⋅⊙∘|ⁿ:2Cmb|⋅⋅⋅⊙⊙∘)
 ⍤⤙≍[2 ¯1 5 0 0] ⊟₅ Adv 2 0 ¯1 20 0 0
 ⍤⤙≍[2 ¯1 5 3 1] ⊟₅ Adv 5 0 ¯1 40 3 1
+
+# The bdv instruction (opcode 6) works exactly like the adv instruction except that the result is stored in the B register. (The numerator is still read from the A register.)
+Bdv ← +₂⊙⊙⊙(⌊÷)⊃(⋅⊙⊙∘|ⁿ:2Cmb|⋅⋅⋅⊙∘)
+⍤⤙≍[2 ¯1 20 5 0] ⊟₅ Bdv 2 0 ¯1 20 0 0
+
+# The cdv instruction (opcode 7) works exactly like the adv instruction except that the result is stored in the C register. (The numerator is still read from the A register.)
+Cdv ← +₂⊙⊙⊙⊙(⌊÷)⊃(⋅⊙⊙⊙∘|ⁿ:2Cmb|⋅⋅⋅∘)
+⍤⤙≍[2 ¯1 20 0 5] ⊟₅ Cdv 2 0 ¯1 20 0 0
 
 Xor ← °⋯=₁ ⬚0+ ∩⋯
 ⍤⤙=2 Xor 8 10
@@ -60,6 +70,12 @@ Out ← ⊃(+₂⋅⊙⊙⊙⊙∘|⊂:◿₈Cmb)
 ⍤⤙≍{2 ¯1 0 0 11 [1 2 3]} □₆ Out 6 0 ¯1 0 0 11 [1 2]
 
 P Inp
-Run ← ⨬(Adv|Bxl|Bst|Jnz|Bxc|Out) ◡⊃(⊡|⊡+₁)
+Run ← ⨬(Adv|Bxl|Bst|Jnz|Bxc|Out|Bdv|Cdv) ◡⊃(⊡|⊡+₁)
 ⍢(Run|<⧻:)
-◌◌◌◌◌
+Disp ← /◇(⊂⊂:@,)°⋕◌◌◌◌◌
+Disp
+
+AOC ~ "../aoc.ua"
+AOC~Input 2024 17
+⍢(Run|<⧻:) P
+Disp
