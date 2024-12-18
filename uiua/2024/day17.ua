@@ -43,8 +43,10 @@ Bst ← +₂⊃(⋅⊙⊙∘|◿₈Cmb|⋅⋅⋅⋅⋅∘)
 ⍤⤙≍[2 ¯1 0 1 9] ⊟₅ Bst 6 0 ¯1 0 0 9
 
 # The jnz instruction (opcode 3) does nothing if the A register is 0. However, if the A register is not zero, it jumps by setting the instruction pointer to the value of its literal operand; if this instruction jumps, the instruction pointer is not increased by 2 after this instruction.
-Jnz ← ∘
+Jnz ← ⨬(+₂⋅∘|∘)◡⋅⋅⋅>₀
+⍤⤙≍[3 ¯1 0 1 2] ⊟₅ Jnz 1 1 ¯1 0 1 2
+⍤⤙≍[4 ¯1 1 1 2] ⊟₅ Jnz 4 1 ¯1 1 1 2
 
-P Inp
-# ⨬(Adv|Bxl|Bst) 
+# P Inp
+# ⨬(Adv|Bxl|Bst|Jnz) 
 # ◡⊃(⊡|⊡+₁)
