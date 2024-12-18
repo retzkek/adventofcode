@@ -34,8 +34,10 @@ Adv ← +₂⊙⊙(⌊÷)⊃(⋅⊙∘|ⁿ:2Cmb|⋅⋅⋅⊙⊙∘)
 ⍤⤙≍[2 ¯1 5 0 0] ⊟₅ Adv 2 0 ¯1 20 0 0
 ⍤⤙≍[2 ¯1 5 3 1] ⊟₅ Adv 5 0 ¯1 40 3 1
 
+Xor ← °⋯=₁ ⬚0+ ∩⋯
+⍤⤙=2 Xor 8 10
 # The bxl instruction (opcode 1) calculates the bitwise XOR of register B and the instruction's literal operand, then stores the result in register B.
-Bxl ← +₂⊃(⋅⊙⊙∘|°⋯=₁ ⬚0+ ∩⋯ ⊙⋅⋅⋅∘|⋅⋅⋅⋅⋅∘)
+Bxl ← +₂⊃(⋅⊙⊙∘|Xor⊙⋅⋅⋅∘|⋅⋅⋅⋅⋅∘)
 ⍤⤙≍[2 ¯1 1 2 3] ⊟₅ Bxl 8 0 ¯1 1 10 3
 
 # The bst instruction (opcode 2) calculates the value of its combo operand modulo 8 (thereby keeping only its lowest 3 bits), then writes that value to the B register.
@@ -46,6 +48,10 @@ Bst ← +₂⊃(⋅⊙⊙∘|◿₈Cmb|⋅⋅⋅⋅⋅∘)
 Jnz ← ⨬(+₂⋅∘|∘)◡⋅⋅⋅>₀
 ⍤⤙≍[3 ¯1 0 1 2] ⊟₅ Jnz 1 1 ¯1 0 1 2
 ⍤⤙≍[4 ¯1 1 1 2] ⊟₅ Jnz 4 1 ¯1 1 1 2
+
+# The bxc instruction (opcode 4) calculates the bitwise XOR of register B and register C, then stores the result in register B. (For legacy reasons, this instruction reads an operand but ignores it.)
+Bxc ← +₂⊃(⋅⊙⊙∘|⋅⋅⋅⋅⊸Xor)
+⍤⤙≍[2 ¯1 0 2 10] ⊟₅ Bxc 1 0 ¯1 0 8 10
 
 # P Inp
 # ⨬(Adv|Bxl|Bst|Jnz) 
