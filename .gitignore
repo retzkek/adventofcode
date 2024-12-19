@@ -3,3 +3,6 @@
 .clj-kondo
 .lsp
 .cpcache
+*.gif
+*.webm
+.DS_Store

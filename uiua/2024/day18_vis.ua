@@ -1,0 +1,25 @@
+# AoC 2024.18 Visualization
+# Video: https://img.kmr.me/adventofcode/2024_day18.webm
+# Pad: https://uiua.org/pad?src=0_14_0-rc_3__IyBBb0MgMjAyNC4xOCBBbmltYXRpb24KSW5wIOKGkCAiNSw0XG40LDJcbjQsNVxuMywwXG4yLDFcbjYsM1xuMiw0XG4xLDVcbjAsNlxuMywzXG4yLDZcbjUsMVxuMSwyXG41LDVcbjIsNVxuNiw1XG4xLDRcbjAsNFxuNiw0XG4xLDFcbjYsMVxuMSwwXG4wLDVcbjEsNlxuMiwwIgojIFBhcnNlIGlucHV0LCBzcGxpdHRpbmcgb24gbmV3bGluZXMgYW5kIHRoZW4gY29tbWFzClAg4oaQIOKKnCjiipzii5XiirjiiaBALCniirjiiaBAXG4KCiMgRmluZCBmaXJzdCBwYXRoIGZyb20gMF8wIHRvIEVuZCwgZ29pbmcgYXJvdW5kIEJsb2NrcwojIFBhdGggPyBCbG9ja3MgRW5kClDigoEg4oaQICgKICDCsOKKmiAgICAgICAgIyBjb252ZXJ0IGJsb2NrZWQgbG9jYXRpb25zIHRvIG1hc2sKICDiipko4oavK-KCgTowLikgIyBjcmVhdGUgZnVsbC1zaXplIHplcm8gbWFzawogIOKsmjArICAgICAgICMgc3VtIHRoZSBtYXNrcyB0byBtYWtlIGZ1bGwgc2l6ZQogIOKKmsKsICAgICAgICAjIG5lZ2F0ZSBhbmQgY29udmVydCB0byBsaXN0IG9mIG9wZW4gbG9jYXRpb25zCiAgIyBlYXN5IG1vZGUgcGF0aCBmaW5kZXIsIGdpdmVuIG5laWdoYm9ycywgd2VpZ2h0cywgYW5kIGVuZCBjb25kaXRpb24KICDiiqIgcGF0aCgKICAgICtB4oKCwqQgIyBjcmVhdGUgbGlzdCBvZiBhbGwgbmVpZ2hib3JzCiAgICDilr3iirjiiIo6ICMgZmlsdGVyIHRvIG9ubHkgb3BlbiBsb2NhdGlvbnMKICB8IOKJjeKKmeKLheKImCAjIGVuZCBhdCBFbmQKICApICRTdGFydDBfMAopCgojIENyZWF0ZSBpbWFnZSBvZiBsb2NhdGlvbnMsIHNjYWxlZCA4eAojIExvY2F0aW9ucyA_IEltYWdlCkRyYXcg4oaQIOKWveKfnOKJoeKWvTgg4o2JwrDiipoKCiMgQ3JlYXRlIEdJRiBvZiBwYXRoIGNoYW5naW5nIGFzIGJsb2NrcyBhcmUgYWRkZWQgb25lIGF0IGEgdGltZQojIEdpZiA_IEJsb2NrcyBFbmQKQW5pbWF0ZSDihpAgKAogIOKKgyjih6Hip7sgICMgZ2VuZXJhdGUgbGlzdCBvZiBob3cgbWFueSBibG9ja3MgdG8gdGFrZSBwZXIgZnJhbWUKICB8IMKk4oqZwqQgIyBmaXggQmxvY2tzIGFuZCBFbmQgZm9yIGl0ZXJhdGlvbiBvdmVyIGZyYW1lcwogICkKICDirJow4omhKAogICAg4oaZICMgdGFrZSBibG9ja3MgZm9yIGZyYW1lCiAgICDin5zijaMoCiAgICAgIFDigoEgICAgICMgZmluZCBwYXRoLCBrZWVwaW5nIGNvcHkgb2YgYmxvY2tzIGZvciBHIGNoYW5uZWwKICAgIHwg4ouFWzBfMF0gIyBvciBpZiBubyBwYXRoIChlcnJvcikgc2hvdyBzdGFydGluZyBwb2ludAogICAgKQogICAg4oip4oKDRHJhdywgIyBkdXBsaWNhdGUgcGF0aCBmb3IgUkIgY2hhbm5lbHMgYW5kIGRyYXcKICAgIOKNieKsmjDiip_igoMgICAjIGNvbWJpbmUgaW50byBpbWFnZQogICkKKQoKQW5pbWF0ZSBQIElucCA2XzYK
+AOC ~ "../aoc.ua"
+Inp ← AOC~Input 2024 18
+
+P ← ⊜(⊜⋕⊸≠@,)⊸≠@\n
+P₁ ← (
+  ⊙(↯+₁:0.)
+  ⊚¬⬚0+°⊚
+  ⊢ path(▽⊸(∊):+A₂¤|≍⊙⋅∘) $Start0_0
+)
+Draw ← ▽⟜≡▽2 ⍉°⊚
+
+# ⍉⊟₃∩₃Draw,⟜P₁ ↙₁₀₂₄ P Inp 70_70
+Animate ← (
+  ⊃(⇡⧻|¤⊙¤)
+  ⬚0≡(⍉⬚0⊟₃∩₃Draw,⟜⍣P₁⋅[0_0]↙)
+)
+
+# Animate P Inp 6_6
+Animate P Inp 70_70
+&fwa "day18.gif" gif 10
+# gif was upscaled and sped up for publishing with ffmpeg:
+# ffmpeg -i day18.gif -r 50 -vf "setpts=0.2*PTS, scale=720:-1" day18_50fps.webm
