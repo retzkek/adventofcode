@@ -77,12 +77,31 @@ Out ← ⊃(+₂⋅⊙⊙⊙∘|⊂:◿₈Cmb)
 ⍤⤙≍{2 0 0 11 [1 2 3]} □₅ Out 6 0 0 0 11 [1 2]
 
 P Inp
-Run ← ⊙⨬(Adv|Bxl|Bst|Jnz|Bxc|Out|Bdv|Cdv) ⟜⊸(⊃(⊡|⊡+₁):)
-⍢(Run|<⧻)
+Step ← ⊙⨬(Adv|Bxl|Bst|Jnz|Bxc|Out|Bdv|Cdv) ⟜⊸(⊃(⊡|⊡+₁):)
+Run  ← ⍢(Step|<⧻)
 Disp ← /◇(⊂⊂:@,)°⋕◌◌◌◌◌
-Disp
+Disp Run
 
 AOC ~ "../aoc.ua"
 AOC~Input 2024 17
-⍢(Run|<⧻) P
-Disp
+Disp Run P
+
+$ Register A: 2024
+$ Register B: 0
+$ Register C: 0
+$ 
+$ Program: 0,3,5,4,3,0
+$ 
+Inp₂ ←
+P Inp₂
+⍤⤙≍⊙⋅⋅⋅⋅∘ Run ⊙⊙⋅($a117440) P Inp₂
+
+?⊙⊙⋅($a1)
+Run⊙⊙+₁
+# ⍢(Run⊙⊙+₁|×⊃(¬≍⊙⋅⋅⋅⋅∘|<117441⋅⋅∘))
+
+# truncated match
+⭀ ← ≍⟜(↙⧻)
+⍤⤙= 1 ⭀ 1_2 1_2_3
+
+# ×⊃(⭀|>₀⧻):⊙⋅⋅⋅⋅∘?
