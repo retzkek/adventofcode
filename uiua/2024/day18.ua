@@ -1,4 +1,5 @@
 # AoC 2024.18
+# https://uiua.org/pad?src=0_14_0-rc_3__IyBBb0MgMjAyNC4xOAoKSW5wIOKGkCAmZnJhcyAiaW5wLnR4dCIKUCAgIOKGkCDiipwo4oqc4ouV4oq44omgQCwp4oq44omgQFxuClDigoEg4oaQICgKICDiiprCrMKw4oqaCiAg4oqiIHBhdGgo4pa94oq4KOKIiik6K0HigoLCpHziiY3iipnii4XiiJgpICRTdGFydDBfMAogIC3igoHip7sKKQrijaTipJk9MjIgUOKCgSDihpnigoHigoIgUCBJbnAgJEdvYWw2XzYKCkRyYXcg4oaQIOKWveKfnOKJoeKWvTIwIOKNicKw4oqaCgpQ4oKCIOKGkCAoCiAg4qSZ4oiYCiAg4o2iKOKGmMKvMXzijaMoMOKXjFDigoF8MSkpCiAg4oqi4oaY4qe74oqZ4peMCikK4o2k4qSZ4omNIDZfMSBQ4oKCICRHb2FsNl82IFAgSW5wCg==
 $ 5,4
 $ 4,2
 $ 4,5
@@ -38,3 +39,13 @@ Draw ← ▽⟜≡▽20 ⍉°⊚
 AOC ~ "../aoc.ua"
 AOC~Input 2024 18
 P₁ ↙₁₀₂₄ P ⊙70_70
+
+P₂ ← (
+  ⤙∘
+  ⍢(↘¯1|⍣(0◌P₁|1))
+  ⊢↘⧻⊙◌
+)
+⍤⤙≍ 6_1 P₂ $Goal6_6 P Inp
+
+AOC~Input 2024 18
+P₂ 70_70 P
